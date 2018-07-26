@@ -1,0 +1,59 @@
+/*
+ * Variables
+ */
+@topAndBottomMargin: 30px;
+@marginBetweenThumbnails: 20px;
+@thumbnaillBackgroundColor: #7fffd4;
+@heroNamesColor: #000000;
+@backgroundColor: #ffe4c4;
+
+/*
+ * Hero Component Style
+ */
+
+.thumbnaill {
+    width: 220px;
+    height: 275px;
+    box-shadow: 10px 10px 29px -5px rgba(0, 0, 0, 0.75);
+    margin: @topAndBottomMargin @marginBetweenThumbnails;
+    background-color: @thumbnaillBackgroundColor;
+    display: inline-block;
+    position: relative;
+    >img {
+        width: 220px;
+        height: 220px;
+        object-fit: cover;
+    }
+    >.imageNotFound {
+        object-fit: unset;
+    }
+    div {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10;
+        >img {
+            height: 30px;
+            width: 30px;
+            cursor: pointer;
+        }
+    }
+    >.imageNotFound {
+        object-fit: unset;
+    }
+    >p {
+        transform: translateX(-50%); //translateY(50%);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        margin: 0;
+        padding: 12px 10px;
+        position: absolute; //bottom: -145px;
+        left: 50%;
+        width: 200px;
+        >a {
+            color: @heroNamesColor;
+            position: relative; // margin-bottom: 103px;
+        }
+    }
+}

@@ -1,0 +1,33 @@
+@backgroundColor: #ffe4c4;
+.navbar {
+  background-color: @backgroundColor;
+  text-align: center;
+  position: relative;
+  > h2 {
+    display: inline-block;
+  }
+  > button {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    border-radius: 10px;
+    background: transparent;
+    cursor: pointer;
+    > img {
+      height: 35px;
+      width: 35px;
+      float: left;
+    }
+    > p {
+      float: left;
+    }
+  }
+  > input {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
+    margin: 20px;
+    position: absolute;
+    right: 10px;
+  }
+}

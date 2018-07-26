@@ -1,0 +1,52 @@
+/*
+ * Variables
+ */
+/*
+ * Hero Component Style
+ */
+.thumbnaill {
+  width: 220px;
+  height: 275px;
+  box-shadow: 10px 10px 29px -5px rgba(0, 0, 0, 0.75);
+  margin: 30px 20px;
+  background-color: #7fffd4;
+  display: inline-block;
+  position: relative;
+}
+.thumbnaill > img {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+}
+.thumbnaill > .imageNotFound {
+  object-fit: unset;
+}
+.thumbnaill div {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+}
+.thumbnaill div > img {
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+}
+.thumbnaill > .imageNotFound {
+  object-fit: unset;
+}
+.thumbnaill > p {
+  transform: translateX(-50%);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 0;
+  padding: 12px 10px;
+  position: absolute;
+  left: 50%;
+  width: 200px;
+}
+.thumbnaill > p > a {
+  color: #000000;
+  position: relative;
+}
