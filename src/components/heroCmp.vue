@@ -1,15 +1,25 @@
 <template>
 <div class="thumbnaill">
     <img :src="src" :class="setClass">
-    <p> {{ name }}</p>
+    <div class="bookmark"><img :src="starSrc" @click="bookmark()"></div>
+    <p> {{ data.name }}</p>
 </div>
 </template>
 
  <script>
+import { EventBus } from "./../main.js";
+ 
 export default {
+  data:function(){
+    return{
+        unbookmarked: require('../assets/img/empty star.png'),
+        bookmarked: require('../assets/img/full star.png')
+        
+    }
+  },
   props: {
-    src: String,
-    name: String
+    data:Object,
+    arrayOfIds:Array
   },
   computed: {
     url: function() {
@@ -23,11 +33,23 @@ export default {
       } else {
         return "";
       }
-    }
+    },
+    src:function(){
+      return this.data.thumbnail.path +"."+ this.data.thumbnail.extension;
+    },
+  starSrc:function(){
+    var isBkm = this.arrayOfIds.includes(this.data.id);
+    var starSrc = isBkm ? this.bookmarked : this.unbookmarked;
+    return starSrc;
   }
+  },
+  methods:{
+    bookmark:function(){
+        EventBus.$emit("bookmarked",this.data);
+    } 
+  },
 };
 </script>
 
- 
  <style lang="less" src="../less/heroCmp.less" scoped>
 </style>

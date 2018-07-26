@@ -53,14 +53,15 @@ export default {
           ""
       }).then(
         result => {
-          EventBus.$emit("getApi", result.data.data.results);
-          this.searching = true;
-          this.heroes = result.data.data.results;
           if (this.name != curentName) {
             this.search();
           }
+          this.searching = true;
+          EventBus.$emit("getApi", result.data.data.results);
+          this.heroes = result.data.data.results;
         },
         error => {
+          this.searching = true;
           console.error(error);
         }
       );
@@ -68,12 +69,9 @@ export default {
   },
   watch: {
     name() {
-      var vm = this;
       if (this.searching) {
         this.searching = false;
-        setTimeout(function () {
-          vm.search();
-        }, 400);
+          this.search();
       }
     }
   },
