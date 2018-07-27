@@ -12,59 +12,90 @@
  */
 
 .thumbnaill {
+  width: 220px;
+  height: 275px;
+  box-shadow: 10px 10px 29px -5px rgba(0, 0, 0, 0.75);
+  margin: @topAndBottomMargin @marginBetweenThumbnails;
+  background-color: @thumbnaillBackgroundColor;
+  display: inline-block;
+  position: relative;
+  float: left;
+  > img {
     width: 220px;
-    height: 275px;
-    box-shadow: 10px 10px 29px -5px rgba(0, 0, 0, 0.75);
-    margin: @topAndBottomMargin @marginBetweenThumbnails;
-    background-color: @thumbnaillBackgroundColor;
-    display: inline-block;
-    position: relative;
-    >img {
-        width: 220px;
-        height: 220px;
-        object-fit: cover;
+    height: 220px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  > .imageNotFound {
+    object-fit: unset;
+  }
+  div {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    > img {
+      height: 30px;
+      width: 30px;
+      cursor: pointer;
     }
-    >.imageNotFound {
-        object-fit: unset;
+  }
+  > .imageNotFound {
+    object-fit: unset;
+  }
+  > p {
+    transform: translateX(-50%); //translateY(50%);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0;
+    padding: 12px 10px;
+    position: absolute; //bottom: -145px;
+    left: 50%;
+    width: 200px;
+    > a {
+      color: @heroNamesColor;
+      position: relative; // margin-bottom: 103px;
     }
-    div {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 10;
-        >img {
-            height: 30px;
-            width: 30px;
-            cursor: pointer;
-        }
+  }
+  > .bookmark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    > img {
+      height: 30px;
+      width: 30px;
+      cursor: pointer;
     }
-    >.imageNotFound {
-        object-fit: unset;
+  }
+  .tooltip {
+    color: #ffffff;
+    position: absolute;
+    top: 42px;
+    right: 25px;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.75);
+    padding: 5px 5px;
+    border-radius: 10px;
+    margin: 0;
+    transform: translateX(50%);
+    > p {
+      margin: 0;
+      width: 110px;
+      font-size: 13px;
+      margin: 0;
     }
-    >p {
-        transform: translateX(-50%); //translateY(50%);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-        margin: 0;
-        padding: 12px 10px;
-        position: absolute; //bottom: -145px;
-        left: 50%;
-        width: 200px;
-        >a {
-            color: @heroNamesColor;
-            position: relative; // margin-bottom: 103px;
-        }
-    }
-    >.bookmark {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 10;
-        >img {
-            height: 30px;
-            width: 30px;
-            cursor: pointer;
-        }
-    }
+  }
+  .tooltip::before {
+    content: "";
+    transform: translateX(-50%) translatey(30%) rotate(-180deg);
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    border-width: 4px 6px 0 6px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
+    z-index: 99;
+  }
 }

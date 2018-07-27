@@ -14,8 +14,9 @@ export default {
       limit: "20",
       offset: "0",
       name: "",
-      searching: true,
-      heroes: ""
+      searching: false,
+      heroes: "",
+      empty: false
     };
   },
   computed: {
@@ -56,39 +57,50 @@ export default {
           if (this.name != curentName) {
             this.search();
           }
-          this.searching = true;
-          EventBus.$emit("getApi", result.data.data.results);
+          this.searching = false;
+          EventBus.$emit("getApi", result.data.data.results, this.searching);
           this.heroes = result.data.data.results;
         },
         error => {
-          this.searching = true;
+          this.searching = false;
           console.error(error);
         }
       );
+    },
+    resetOffset: function () {
+      this.offset = 0;
     }
   },
   watch: {
     name() {
-      if (this.searching) {
-        this.searching = false;
-          this.search();
+      if (this.name.length < 1) {
+        EventBus.$emit("searchEmpty", true);
+      } else {
+        EventBus.$emit("searchEmpty", false);
+      }
+      if (!this.searching) {
+        this.searching = true;
+        EventBus.$emit("searching", this.searching);
+        this.search();
       }
     }
   },
   created() {
     EventBus.$on("goForward", () => {
-      if (this.heroes.length > 19) {
+      if (this.heroes.length > 19 && this.name.length > 0) {
         this.offset = parseInt(this.offset) + 20;
-        console.log(this.offset)
+        console.log(this.offset);
+        EventBus.$emit("searching", true);
         this.search();
       }
     });
     EventBus.$on("goBack", () => {
       if (this.offset > 10) {
         this.offset = parseInt(this.offset) - 20;
-        console.log(this.offset)
+        console.log(this.offset);
+        EventBus.$emit("searching", true);
         this.search();
       }
-    })
+    });
   },
 };

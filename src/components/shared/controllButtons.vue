@@ -12,7 +12,8 @@ export default {
   data: function() {
     return {
       isShowForward: false,
-      isShowBack: false
+      isShowBack: false,
+      searchEmpty: false
     };
   },
   methods: {
@@ -24,12 +25,25 @@ export default {
     }
   },
   created() {
-    EventBus.$on("getApi", data => {
-      this.isShowForward = true;
-      this.isShowBack = true;
+    EventBus.$on("getApi", (data, searching) => {
+      if (!this.searchEmpty) {
+        this.isShowForward = !searching;
+        this.isShowBack = !searching;
+      }
       if (data.length < 19) {
         this.isShowForward = false;
       }
+    });
+    EventBus.$on("searching", searching => {
+      this.isShowForward = !searching;
+      this.isShowBack = !searching;
+    });
+    EventBus.$on("buttonsOn", data => {
+      this.isShowForward = data;
+      this.isShowBack = data;
+    });
+    EventBus.$on("searchEmpty", data => {
+      this.searchEmpty = data;
     });
   }
 };
