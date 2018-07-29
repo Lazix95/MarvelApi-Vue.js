@@ -120,16 +120,14 @@ export default {
       }
     },
     perviusHero: function() {
-      var next = this.bookmarkedArray
-        .map(item => item.id)
-        .indexOf(this.modalData.id);
-      if (this.bookmarkedArray[next - 1]) {
-        this.modalData = this.bookmarkedArray[next - 1];
+      var next = this.bookmarkedArray.map(item => item.id).indexOf(this.modalData.id) - 1;
+      if ((next) >= 0) {;
+        this.modalData = this.bookmarkedArray[next];
       }
     },
     closeModal: function() {
       if (event.target.className == "modal") {
-        this.modalOpend = false;
+       this.modalOpend = false;
       }
     }
   }
