@@ -1,14 +1,16 @@
 <template>
-<div class="thumbnaill">
+<div><div class="thumbnaill" @mousemove="mouseCrd()">
     <img :src="src" :class="setClass" @click="openModal()">
     <div class="bookmark"><img :src="starSrc" @click="bookmark()" @mouseover="activeTooltip(true)" @mouseout="activeTooltip(false)"></div>
-    <div v-if="toolTipActive" class="tooltip"><p>{{ tooltipStr }}</p></div>
     <p> {{ data.name }}</p>
+</div>
+ <app-tooltip v-if="toolTipActive" :x="tooltipX" :y="tooltipY">{{ tooltipStr }}</app-tooltip>
 </div>
 </template>
 
  <script>
 import { EventBus } from "./../main.js";
+import tooltip from "./shared/tooltip.vue";
 
 export default {
   data: function() {
@@ -17,7 +19,9 @@ export default {
       bookmarked: require("../assets/img/full star.png"),
       toolTipActive: false,
       bookmarkedString: "Bookmark",
-      unbookmarkedStrung: "Unbookmark"
+      unbookmarkedStrung: "Unbookmark",
+      tooltipX: "",
+      tooltipY: ""
     };
   },
   props: {
@@ -26,7 +30,6 @@ export default {
   },
   computed: {
     url: function() {
-      console.log(this.src.toString());
       return this.src.toString();
     },
     setClass: function() {
@@ -51,7 +54,7 @@ export default {
       if (this.arrayOfIds.includes(this.data.id)) {
         str = this.unbookmarkedStrung;
       }
-      return str + " " + this.data.name.split("(")[0];
+      return str + "\n" + " " + this.data.name.split("(")[0];
     }
   },
   methods: {
@@ -63,7 +66,14 @@ export default {
     },
     openModal: function() {
       EventBus.$emit("openModal", this.data);
+    },
+    mouseCrd: function() {
+      this.tooltipX = parseInt(event.pageX);
+      this.tooltipY = parseInt(event.pageY);
     }
+  },
+  components: {
+    appTooltip: tooltip
   }
 };
 </script>

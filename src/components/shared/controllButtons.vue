@@ -25,13 +25,16 @@ export default {
     }
   },
   created() {
-    EventBus.$on("getApi", (data, searching) => {
+    EventBus.$on("getApi", (data, searching, offset) => {
       if (!this.searchEmpty) {
         this.isShowForward = !searching;
         this.isShowBack = !searching;
       }
       if (data.length < 19) {
         this.isShowForward = false;
+      }
+      if (offset < 1) {
+        this.isShowBack = false;
       }
     });
     EventBus.$on("searching", searching => {
@@ -44,6 +47,9 @@ export default {
     });
     EventBus.$on("searchEmpty", data => {
       this.searchEmpty = data;
+    });
+    EventBus.$on("forwardOff", data => {
+      this.isShowForward = data;
     });
   }
 };

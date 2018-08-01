@@ -3,6 +3,7 @@
        <app-modal v-if="modalOpend" :modalData="modalData" :closeModal="closeModal" :nextHero="nextHero" :perviusHero="perviusHero"></app-modal>
         <app-hero v-if="!searching && index>min && index<max" v-for="(hero, index) in heroes" :key="hero.id" :data="hero" :arrayOfIds="arrayOfIds">
         </app-hero>
+        <app-search-info v-if="!searching && searchValue && heroes.length == 0">{{ searchValue }}</app-search-info>
         <app-loading-screen v-if="searching"></app-loading-screen>
     </div>
 </template>
@@ -12,6 +13,7 @@ import { EventBus } from "../main.js";
 import hero from "./heroCmp.vue";
 import animation from "./shared/loadingScreen";
 import modal from "./shared/HeroInfo.vue";
+import info from "./shared/searchInfo.vue";
 
 export default {
   data: function() {
@@ -22,7 +24,8 @@ export default {
       searching: false,
       searchEmpty: true,
       modalOpend: false,
-      modalData: "",
+      modalData: [],
+      searchValue: "",
       min: -1,
       max: 20,
       step: 20
@@ -31,7 +34,8 @@ export default {
   components: {
     appHero: hero,
     appLoadingScreen: animation,
-    appModal: modal
+    appModal: modal,
+    appSearchInfo: info
   },
   created() {
     EventBus.$on("getApi", (data, searching) => {
@@ -62,8 +66,9 @@ export default {
         this.saveToLocalStorage();
       }
     });
-    EventBus.$on("searching", searching => {
+    EventBus.$on("searching", (searching, searchValue) => {
       this.searching = searching;
+      this.searchValue = searchValue;
     });
     EventBus.$on("searchEmpty", data => {
       this.searchEmpty = data;
@@ -112,22 +117,24 @@ export default {
       this.max = this.step;
     },
     nextHero: function() {
-      var next = this.bookmarkedArray
-        .map(item => item.id)
-        .indexOf(this.modalData.id);
-      if (this.bookmarkedArray[next + 1]) {
-        this.modalData = this.bookmarkedArray[next + 1];
+      var next = this.heroes.map(item => item.id).indexOf(this.modalData.id);
+      if (this.heroes[next + 1]) {
+        this.modalData = this.heroes[next + 1];
       }
     },
     perviusHero: function() {
-      var next = this.bookmarkedArray.map(item => item.id).indexOf(this.modalData.id) - 1;
-      if ((next) >= 0) {;
-        this.modalData = this.bookmarkedArray[next];
+      var next =
+        this.heroes.map(item => item.id).indexOf(this.modalData.id) - 1;
+      if (next >= 0) {
+        this.modalData = this.heroes[next];
       }
     },
     closeModal: function() {
-      if (event.target.className == "modal") {
-       this.modalOpend = false;
+      if (
+        event.target.className == "modal" ||
+        event.target.className == "close"
+      ) {
+        this.modalOpend = false;
       }
     }
   }
@@ -140,6 +147,31 @@ export default {
   text-align: center;
   margin: auto;
   overflow: auto;
-  padding: 0 30px;
+  padding: 0 5px;
+}
+
+@media screen and (max-width: 1199px) {
+  .heroHolder {
+    width: 960px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .heroHolder {
+    width: 520px;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .heroHolder {
+    width: 460px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .heroHolder {
+    width: 240px;
+    text-align: center;
+  }
 }
 </style>
